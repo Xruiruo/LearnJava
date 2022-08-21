@@ -1,2 +1,2 @@
 # LearnJava
-just for lear java spring-boot
+just for learn java spring-boot
