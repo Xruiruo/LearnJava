@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import sia.tacoscloud.entity.Ingredient;
+import sia.tacoscloud.entity.Taco;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,7 +45,9 @@ public class DesignTacoController {
 
     @GetMapping
     public String showDesignForm(Model model){
+        model.addAttribute("design", new Taco());
         return "design";
     }
+    //TODO 需新增提交POST请求处理
 
 }
