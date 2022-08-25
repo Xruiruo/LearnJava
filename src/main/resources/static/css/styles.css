@@ -1,0 +1,5 @@
+/*TODO 理解float浮动模型 20220825*/
+div.ingredient-group:nth-child(odd){
+    float: left;
+    padding-right: 20px;
+}

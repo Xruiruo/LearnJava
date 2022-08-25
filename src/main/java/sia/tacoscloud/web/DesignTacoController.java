@@ -3,8 +3,10 @@ package sia.tacoscloud.web;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import sia.tacoscloud.entity.Ingredient;
 import sia.tacoscloud.entity.Taco;
@@ -50,4 +52,13 @@ public class DesignTacoController {
     }
     //TODO 需新增提交POST请求处理
 
+    @PostMapping
+    public String processDesign(@Valid @ModelAttribute("design") Taco design, BindingResult bindingResult, Model model){
+        if (bindingResult.hasErrors()){
+            log.info("There were some problems happend");
+            return "design";
+        }
+        log.info("Sucess!" + design);
+        return "sucess";
+    }
 }
