@@ -1,11 +1,7 @@
 package sia.tacoscloud.dao.data;
 
+import org.springframework.data.repository.CrudRepository;
 import sia.tacoscloud.entity.Ingredient;
 
-public interface IngredientRepository {
-    Iterable<Ingredient> findAll();
-
-    Ingredient findById(String id);
-
-    Ingredient save(Ingredient ingredient);
+public interface IngredientRepository extends CrudRepository<Ingredient, String> {
 }

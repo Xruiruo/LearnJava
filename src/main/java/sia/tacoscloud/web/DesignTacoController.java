@@ -9,11 +9,14 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import sia.tacoscloud.dao.data.IngredientRepository;
 import sia.tacoscloud.dao.data.TacoRepository;
+import sia.tacoscloud.dao.data.UserRepository;
 import sia.tacoscloud.entity.Ingredient;
 import sia.tacoscloud.entity.Order;
 import sia.tacoscloud.entity.Taco;
+import sia.tacoscloud.entity.User;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,12 +32,15 @@ public class DesignTacoController {
 
     private TacoRepository designRepository;
 
+    private UserRepository userRepository;
+
     @Autowired
     public DesignTacoController(
             IngredientRepository ingredientRepo,
-            TacoRepository designRepo) {
+            TacoRepository designRepo, UserRepository userRepository) {
         this.ingredientRepository = ingredientRepo;
         this.designRepository = designRepo;
+        this.userRepository = userRepository;
     }
 
     @ModelAttribute(name = "order")
@@ -52,7 +58,8 @@ public class DesignTacoController {
     }
 
     @GetMapping
-    public String showDesignForm(Model model) {
+    public String showDesignForm(Model model, Principal principal) {
+        log.info("      --- Designing taco");
         List<Ingredient> ingredients = new ArrayList<>();
         ingredientRepository.findAll().forEach(i -> ingredients.add(i));
 
@@ -62,6 +69,10 @@ public class DesignTacoController {
                     filterByType(ingredients, type));
         }
 
+        String username = principal.getName();
+        User user = userRepository.findByUsername(username);
+        model.addAttribute("user", user);
+
         return "design";
     }
     //TODO 需新增提交POST请求处理
@@ -70,6 +81,8 @@ public class DesignTacoController {
     public String processDesign(
             @Valid Taco design, Errors errors,
             @ModelAttribute Order order) {
+
+        log.info("      --- Saving taco");
 
         if (errors.hasErrors()) {
             return "design";
